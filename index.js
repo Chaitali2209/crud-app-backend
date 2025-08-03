@@ -12,6 +12,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
+// custom logger middleware
+const logger = require('./middleware/logger');
+app.use(logger);
+
 // routes
 app.use('/api/products', productRoute);
 

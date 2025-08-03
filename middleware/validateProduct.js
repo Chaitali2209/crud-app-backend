@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const logger = require('./logger'); // Import your Winston logger
 
 const productValidationRules = [
     body('name')
@@ -20,6 +21,9 @@ const productValidationRules = [
 const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        // Log it explicitly to error.log
+    logger.error(`Validation Error on ${req.method} ${req.originalUrl}: ${JSON.stringify(errors.array())}`);
+
         return res.status(400).json({ errors: errors.array().map(err => ({ field: err.param, message: err.msg })) });
     }
     next();
