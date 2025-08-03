@@ -4,6 +4,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const Product = require('./models/product.model.js');
 const productRoute = require('./routes/product.route.js')
+const errorHandler = require('./middleware/errorHandler.js');
 
 const app = express();
 
@@ -13,6 +14,9 @@ app.use(express.urlencoded({extended: false}));
 
 // routes
 app.use('/api/products', productRoute);
+
+// error handling middleware (always after routes)
+app.use(errorHandler);
 
 app.get('/', (req, res) => {
     res.send("Hello from Node API Server");
